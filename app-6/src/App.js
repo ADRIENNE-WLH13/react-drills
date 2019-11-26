@@ -1,55 +1,45 @@
 import React, { Component } from "react";
 import "./App.css";
-import Todo from "./Todo";
+import NewTask from "./Components/NewTask";
+import List from './Components/List';
 
 class App extends Component {
-  constructor() {
-    super();
-
-    this.state = {
+  constructor(props) {
+    super(props)
+    this.state={
       list: [],
-      input: ""
-    };
+      userInput: ''
+    }
 
-    this.handleAddTask = this.handleAddTask.bind(this);
+    this.updateInput = this.updateInput.bind(this)
+    this.handleAdd = this.handleAdd.bind(this)
   }
 
-  handleInputChange(value) {
-    this.setState({ input: value });
-  }
+updateInput(val) {
+  this.setState({
+    userInput: val
+  })
+}
 
-  handleAddTask() {
-    this.setState({
-      list: [...this.state.list, this.state.input],
-      input: ""
-    });
-  }
+handleAdd() {
+  this.setState({
+    list: [...this.state.list, this.state.userInput],
+    userInput: ''
+  })
+  document.getElementById('inputField').value = ''
+}
+
+
 
   render() {
-    let list = this.state.list.map((element, index) => {
-      return <Todo key={index} task={element} />;
-    });
-
     return (
       <div className="App">
         <h1>My to-do list:</h1>
-
-        <div>
-          <input
-            value={this.state.input}
-            placeholder="Enter new task"
-            onChange={e => this.handleInputChange(e.target.value)}
-          />
-
-          <button onClick={this.handleAddTask}>Add</button>
-        </div>
-
-        <br />
-
-        {list}
+        <h6>(it's very nice)</h6>
+        <NewTask updateInput={this.updateInput} handleAdd={this.handleAdd}/>
+        <List list={this.state.list}/>
       </div>
     );
   }
 }
-
 export default App;
